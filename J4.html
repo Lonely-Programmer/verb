@@ -166,8 +166,8 @@
     }
     function zload()
     {
-        if(!IsPC())
-            window.location.href='J4.html';
+        if(IsPC())
+            window.location.href='J3.html';
         document.getElementById('verb').focus();
         document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
     }
@@ -184,6 +184,8 @@
 <HR>
 <h1>输入动词(变形后)</h1>
 <input type='text' id='verb' value='食べます' style='font-size:40px'onkeyup=" if(event.keyCode==13) { work(this); }">
+<button type="button" onclick="work(this)" style='font-size:40px'>开始转换</button>
+<button type="button" onclick="zclear(this)" style='font-size:40px'>清空</button>
 <HR>
 <label id='result' class ='one' style='font-size: 40px;word-break:break-all;word-wrap:break-word;'></label>
 </body>
