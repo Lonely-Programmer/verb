@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset='utf-8'> 
+<style>
+    .one{
+        font-size: 24px;
+        white-space: pre-line;
+    }
+</style>
+<style>
+    body{text-align:center}
+</style>
+<title>日语动词变形</title>
+<link rel='icon' type='image/x-icon' href='icon/6.ico'/>
+<script type='text/javascript' src='js/trans.js'></script>
+<script type='text/javascript' src='js/romaji.js'></script>
+<script type='text/javascript' src='js/dict.js'></script>
+<script type='text/javascript'>
+    function look_up_dict(kanji)
+    {
+        var ans = [[],[]];
+        kanji = kata_to_hira(kanji);
+        for(var i=0;i<dict.length;i++)
+        {
+            if(kata_to_hira(dict[i].kaki) == kanji || kata_to_hira(dict[i].yomi) == kanji)
+            {
+                if(dict[i].kaki == '')
+                    ans[0].push(dict[i].yomi);
+                else
+                    ans[0].push(dict[i].kaki);
+                if(dict[i].type == 'vs')
+                    ans[0][ans[0].length-1] = ans[0][ans[0].length-1] + 'する';
+                ans[1].push(dict[i].type);
+            }
+            else if (dict[i].type.slice(0,2) == 'vs' && (dict[i].kaki != '' && kata_to_hira(dict[i].kaki) + 'する' == kanji) || kata_to_hira(dict[i].yomi) + 'する' == kanji)
+            {
+                if(dict[i].kaki == '')
+                    ans[0].push(dict[i].yomi + 'する');
+                else
+                    ans[0].push(dict[i].kaki + 'する');
+                ans[1].push(dict[i].type);
+            }
+        }
+        //alert(ans);
+        return ans;
+    }
+    function work(x)
+    {
+        var verb = document.getElementById('verb').value;
+        verb = verb.replace(/\s*/g,'');
+        verb = romaji_to_hiragana(verb);
+        if(verb == '')
+        {
+            document.getElementById('result').textContent = '';
+            return;
+        }
+        var dict_result = look_up_dict(verb);
+        
+        var result = '';
+        for(var i=0;i<dict_result[0].length;i++)
+        {
+            var dan = dict_result[1][i];
+            if(dan[1] != '1' && dan[1] != '5' && dan[1] != 's' && dan[1] != 'k')
+                continue;
+            result = result + get_result(dict_result[0][i],dan) + '\n\n';
+        }
+        if(result == '')
+            result = '找不到“' + verb + '”，请检查是否正确地输入了现代日语的动词。'
+        document.getElementById('result').textContent = result;
+        document.getElementById('verb').blur();
+    }
+    function IsPC() {
+        var userAgentInfo = navigator.userAgent;
+        var Agents = ["Android", "iPhone",
+            "SymbianOS", "Windows Phone",
+            "iPad", "iPod"];
+        var flag = true;
+        for (var v = 0; v < Agents.length; v++) {
+            if (userAgentInfo.indexOf(Agents[v]) > 0) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+    function zclear(x)
+    {
+        document.getElementById('verb').focus();
+        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
+    }
+    function zload()
+    {
+        if(IsPC())
+            window.location.href='J.html';
+        document.getElementById('verb').focus();
+        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
+    }
+</script>
+</head>
+<style>
+        body{background:url(pic/phone.png) top left;
+        background-size:100%;
+        background-attachment: fixed;}
+        </style>
+<body onload="zload()" >
+<h1>日语动词变形器</h1>
+<HR>
+<h1>输入动词(基本形)</h1>
+<input type='text' id='verb' value='食べる' style='font-size:40px' onkeyup=" if(event.keyCode==13) { work(this); }">
+<button type="button" onclick="work(this)" style='font-size:40px'>开始转换</button>
+<button type="button" onclick="zclear(this)" style='font-size:40px'>清空</button>
+<HR>
+<label id='result' class ='one' style='font-size: 40px;word-break:break-all;word-wrap:break-word;'></label>
+</body>
+</html>
