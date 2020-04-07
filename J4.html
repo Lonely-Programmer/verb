@@ -130,25 +130,11 @@
         var result = process(verb);
         result = look_up_dict(result);
         result = get_result(result);
-/*
-        result = 'var dict = [\n';
-        var cnt=0;
-        for(i=0;i<dict.length;i++)
-        {
-            if(dict[i].type.slice(0,2) != 'vs' && dict[i].type.length > 3)
-            {
-                result = result + '{kaki:\"' + dict[i].kaki + '\",yomi:\"' + dict[i].yomi + '\",type:\"' + dict[i].type + '\"},\n';
-                cnt += 1;
-            }      
-        }
-        alert(cnt);
-        result = result.slice(0,-2) + '\n]';
-*/
+
         if(result == '')
             result = '对不起，未能计算出\"' + verb + '\"的逆变形结果！';
         document.getElementById('result').textContent = result;
-        document.getElementById('verb').focus();
-        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
+        document.getElementById('verb').blur();
     }
     function IsPC() {
         var userAgentInfo = navigator.userAgent;
