@@ -164,6 +164,11 @@
         }
         return flag;
     }
+    function zclear(x)
+    {
+        document.getElementById('verb').focus();
+        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
+    }
     function zload()
     {
         if(IsPC())
