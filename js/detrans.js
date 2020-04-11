@@ -431,7 +431,7 @@ function process(verb)
                 {
                     state_tmp.push([tmp.slice(0,-1)+'る','v1',[steps[i]].concat(change),[verb].concat(history)]);
                 }
-                else if((type == 'v1' || type == 'v5') && last_dan == 'あ')
+                if((type == 'v1' || type == 'v5') && last_dan == 'あ')
                 {
                     state_tmp.push([tmp.slice(0,-1)+trans(tmp[tmp.length-1],'う'),'v5',[steps[i]].concat(change),[verb].concat(history)]);
                 }
@@ -473,11 +473,6 @@ function process(verb)
                 {
                     state_tmp.push([tmp.slice(0,-1)+'る','v1',[steps[i]].concat(change),[verb].concat(history)]);
                 }
-                //alert(tmp+','+pres[i]);
-                if((type == 'v1' || type == 'vs') && tmp[tmp.length-1] == 'さ')
-                {
-                    state_tmp.push([tmp.slice(0,-1)+'する','vs',[steps[i]].concat(change),[verb].concat(history)]);
-                }
                 if((type == 'v1' || type == 'vk') && tmp[tmp.length-1] == pres[i])
                 {
                     if(tmp[tmp.length-2] == 'こ')
@@ -490,6 +485,11 @@ function process(verb)
             {
                 tmp = verb;
                 state_tmp.push([tmp.slice(0,-2)+trans(tmp[tmp.length-2],'う'),'v5',[steps[i]].concat(change),[verb].concat(history)]);
+            }
+            if(verb.slice(-3,verb.length) == 'できる')
+            {
+                tmp = verb.slice(0,-3);
+                state_tmp.push([tmp+'する','vs',[steps[i]].concat(change),[verb].concat(history)]);
             }
         }
     }
