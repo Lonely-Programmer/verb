@@ -15,7 +15,7 @@
 <link rel='icon' type='image/x-icon' href='icon/6.ico'/>
 <script type='text/javascript' src='js/trans.js'></script>
 <script type='text/javascript' src='js/romaji.js'></script>
-<script type='text/javascript' src='https://jbox.sjtu.edu.cn:10081/v2/delivery/data/315c19b60aa54d979f8a8e3998217e07/js/dict.js'></script>
+<script type='text/javascript' src='js/dict.js'></script>
 <script type='text/javascript'>
     function look_up_dict(kanji)
     {
@@ -68,7 +68,8 @@
         if(result == '')
             result = '找不到“' + verb + '”，请检查是否正确地输入了现代日语的动词。'
         document.getElementById('result').textContent = result;
-        document.getElementById('verb').blur();
+        document.getElementById('verb').focus();
+        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
     }
     function IsPC() {
         var userAgentInfo = navigator.userAgent;
@@ -84,32 +85,26 @@
         }
         return flag;
     }
-    function zclear(x)
-    {
-        document.getElementById('verb').focus();
-        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
-    }
     function zload()
     {
-        if(IsPC())
-            window.location.href='J.html';
+        if(!IsPC())
+            window.location.href='J2.html';
         document.getElementById('verb').focus();
         document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
     }
 </script>
 </head>
 <style>
-        body{background:url(https://jbox.sjtu.edu.cn:10081/v2/delivery/data/315c19b60aa54d979f8a8e3998217e07/pic/phone.png) top left;
+        body{background:url(pic/pc.png) top left;
         background-size:100%;
         background-attachment: fixed;}
         </style>
 <body onload="zload()" >
 <h1>日语动词变形器</h1>
+<img src="icon/6.png" width="100" height="100" alt="Eternity Larva" />
 <HR>
 <h1>输入动词(基本形)</h1>
-<input type='text' id='verb' value='食べる' style='font-size:40px' onkeyup=" if(event.keyCode==13) { work(this); }">
-<button type="button" onclick="work(this)" style='font-size:40px'>开始转换</button>
-<button type="button" onclick="zclear(this)" style='font-size:40px'>清空</button>
+<input type='text' id='verb' value='食べる' style='font-size:40px'onkeyup=" if(event.keyCode==13) { work(this); }">
 <HR>
 <label id='result' class ='one' style='font-size: 40px;word-break:break-all;word-wrap:break-word;'></label>
 </body>

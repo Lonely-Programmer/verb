@@ -16,7 +16,7 @@
 <script type='text/javascript' src='js/trans.js'></script>
 <script type='text/javascript' src='js/detrans.js'></script>
 <script type='text/javascript' src='js/romaji.js'></script>
-<script type='text/javascript' src='https://jbox.sjtu.edu.cn:10081/v2/delivery/data/315c19b60aa54d979f8a8e3998217e07/js/dict.js'></script>
+<script type='text/javascript' src='js/dict.js'></script>
 <script type='text/javascript'>
     function dict_match(d,r)
     {
@@ -130,11 +130,25 @@
         var result = process(verb);
         result = look_up_dict(result);
         result = get_result(result);
-
+/*
+        result = 'var dict = [\n';
+        var cnt=0;
+        for(i=0;i<dict.length;i++)
+        {
+            if(dict[i].type.slice(0,2) != 'vs' && dict[i].type.length > 3)
+            {
+                result = result + '{kaki:\"' + dict[i].kaki + '\",yomi:\"' + dict[i].yomi + '\",type:\"' + dict[i].type + '\"},\n';
+                cnt += 1;
+            }      
+        }
+        alert(cnt);
+        result = result.slice(0,-2) + '\n]';
+*/
         if(result == '')
             result = '对不起，未能计算出\"' + verb + '\"的逆变形结果！';
         document.getElementById('result').textContent = result;
-        document.getElementById('verb').blur();
+        document.getElementById('verb').focus();
+        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
     }
     function IsPC() {
         var userAgentInfo = navigator.userAgent;
@@ -150,32 +164,26 @@
         }
         return flag;
     }
-    function zclear(x)
-    {
-        document.getElementById('verb').focus();
-        document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
-    }
     function zload()
     {
-        if(IsPC())
-            window.location.href='J3.html';
+        if(!IsPC())
+            window.location.href='J4.html';
         document.getElementById('verb').focus();
         document.getElementById('verb').setSelectionRange(0,document.getElementById('verb').value.length);
     }
 </script>
 </head>
 <style>
-        body{background:url(https://jbox.sjtu.edu.cn:10081/v2/delivery/data/315c19b60aa54d979f8a8e3998217e07/pic/pc.png) top left;
+        body{background:url(pic/pc.png) top left;
         background-size:100%;
         background-attachment: fixed;}
         </style>
 <body onload="zload()" >
 <h1>日语动词逆变形器</h1>
+<img src="icon/7.png" width="100" height="100" alt="Kijin Seija" />
 <HR>
 <h1>输入动词(变形后)</h1>
 <input type='text' id='verb' value='食べます' style='font-size:40px'onkeyup=" if(event.keyCode==13) { work(this); }">
-<button type="button" onclick="work(this)" style='font-size:40px'>开始转换</button>
-<button type="button" onclick="zclear(this)" style='font-size:40px'>清空</button>
 <HR>
 <label id='result' class ='one' style='font-size: 40px;word-break:break-all;word-wrap:break-word;'></label>
 </body>
